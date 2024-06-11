@@ -66,7 +66,6 @@ class Musixmatch(LRCProvider):
             "track.subtitle.get",
             [("track_id", track_id), ("subtitle_format", "lrc")],
         )
-        print(self.lang)
         if self.lang is not None:
             r_tr = self._get(
                 "crowd.track.translations.get",
@@ -128,7 +127,7 @@ class Musixmatch(LRCProvider):
             return None
         body = r.json()["message"]["body"]
         tracks = body["track_list"]
-        def cmp_key(t): return f"{t['track']['track_name']} {t['track']['artist_name']}"
+        cmp_key = lambda t: f"{t['track']['track_name']} {t['track']['artist_name']}"
         track = get_best_match(tracks, search_term, cmp_key)
         if not track:
             return None
